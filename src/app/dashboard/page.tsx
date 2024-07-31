@@ -14,7 +14,6 @@ const Dashboard: React.FC = () => {
     const chartInstanceRef = useRef<Chart<"line"> | null>(null);
     const donutChartRef = useRef<HTMLCanvasElement | null>(null);
     const donutChartInstanceRef = useRef<Chart<"doughnut"> | null>(null);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const ctx = chartRef.current?.getContext("2d");
@@ -46,7 +45,7 @@ const Dashboard: React.FC = () => {
                     datasets: [
                         {
                             label: "Total Pengguna",
-                            data: [10, 17, 30, 15, 20, 25, 33, 10, 20, 20],
+                            data: [10, 17, 30, 15, 20, 25, 33, 10, 90, 20],
                             borderColor: "#883DCF",
                             borderWidth: 2,
                         },
