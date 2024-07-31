@@ -6,6 +6,7 @@ import NavigationList from "../NavigationList/NavigationList";
 import { RxDashboard } from "react-icons/rx";
 import { logo } from "@/app/image";
 import Image from "next/image";
+import { IoStorefront } from "react-icons/io5";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -107,6 +108,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             <ul className="mb-6 flex flex-col gap-1.5">
               {/* <!-- Menu Item Dashboard --> */}
               <NavigationList icon={<RxDashboard size={19} />} title="Dasboard" pathname="/dashboard" />
+              <NavigationList icon={<IoStorefront size={19} />} title="Tambah Product" pathname="/addProduct" />
 
 
               {/* <!-- Menu Item Calendar -->

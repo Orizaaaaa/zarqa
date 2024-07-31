@@ -5,9 +5,8 @@ import { manusiaLaptop } from "../image";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
 import Image from "next/image";
 import CardBox from "@/components/fragemnts/cardBox/CardBox";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
-import ChartOne from "@/components/fragemnts/Charts/ChartOne";
 
 const Dashboard: React.FC = () => {
     const chartRef = useRef<HTMLCanvasElement | null>(null);
