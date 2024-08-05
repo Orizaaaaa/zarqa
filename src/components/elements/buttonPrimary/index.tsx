@@ -9,7 +9,7 @@ type Props = {
 
 const ButtonPrimary = ({ children, onClick, className }: Props) => {
     return (
-        <button className={`bg-primary px-4 py-2 text-white  ${className}`} onClick={onClick}  >
+        <button className={`bg-primary  text-white  ${className}`} onClick={onClick}  >
             {children}
         </button >
     )

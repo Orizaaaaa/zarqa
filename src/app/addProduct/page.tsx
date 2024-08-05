@@ -47,8 +47,8 @@ const AddProduct = (props: Props) => {
 
     return (
         <DefaultLayout>
-            <div className="grid grid-cols-6 gap-3">
-                <Card className='col-span-4' padding='p-3'>
+            <div className="grid grid-cols-1 lg:grid-cols-6 gap-3">
+                <Card className='lg:col-span-4' padding='p-3'>
                     <h1 className='text-xl font-medium' >General Information</h1>
                     <div className="input mt-5">
                         <InputForm className='bg-[#EEEEEE]' htmlFor="title" title="Nama Produk" type="text" onChange={handleChange} value={form.title} placeholder="" />
@@ -98,67 +98,77 @@ const AddProduct = (props: Props) => {
 
                 </Card>
 
-                <Card className='col-span-2' padding='p-5' >
-                    <CaraoselImage>
-                        {form.images.length > 0 && (
-                            form.images.map((image, index) => (
-                                <SwiperSlide key={index}>
-                                    <>
-                                        <div className="flex justify-center items-center" style={{ pointerEvents: 'none' }}>
-                                            <img
-                                                src={URL.createObjectURL(image)}
-                                                alt={`preview-${index}`}
-                                                className="w-auto h-[350px] relative"
-                                            />
-                                        </div>
-                                        <button onClick={() => deleteArrayImage(index)} className="button-delete array image absolute top-0 right-0 z-10 "  ><IoCloseCircleOutline color="red" size={34} /></button>
-                                    </>
-                                </SwiperSlide>
-                            ))
-                        )}
-                    </CaraoselImage>
-                    <h1 className='my-3 font-semibold text-lg' >Dress besi model anak punk...</h1>
-                    <p className='text-sm text-gray'> Dress ini memiliki kualitas yang baik dari segi material
-                        dengan campuran warna yang cocok, mampu
-                        menciptakan perpaduan yang tolol...</p>
+                {/* card right */}
+                <Card className='col-span-2 h-full flex flex-col justify-end ' padding='p-5' >
 
-                    <h1 className='my-3 font-medium' >Ukuran Yang Tersedia </h1>
-                    <div className="grid grid-cols-10">
-                        <p className='col-span-4 text-gray'>S</p>
-                        <div className="col-span-6 flex  text-gray ms-2">: 5889 </div>
-                    </div>
-                    <div className="grid grid-cols-10">
-                        <p className='col-span-4 text-gray'>M</p>
-                        <div className="col-span-6 flex  text-gray ms-2">: 5889  </div>
-                    </div>
-                    <div className="grid grid-cols-10">
-                        <p className='col-span-4 text-gray'>L</p>
-                        <div className="col-span-6 flex  text-gray ms-2">: 5889 </div>
-                    </div>
-                    <div className="grid grid-cols-10">
-                        <p className='col-span-4 text-gray'>XL</p>
-                        <div className="col-span-6 flex  text-gray ms-2">: 5889 </div>
-                    </div>
-                    <div className="grid grid-cols-10">
-                        <p className='col-span-4 text-gray'>XXL</p>
-                        <div className="col-span-6 flex  text-gray ms-2">: 5889 </div>
+                    {/* caraosel */}
+                    <div>
+                        <CaraoselImage>
+                            {form.images.length > 0 && (
+                                form.images.map((image, index) => (
+                                    <SwiperSlide key={index}>
+                                        <>
+                                            <div className="flex justify-center items-center " style={{ pointerEvents: 'none' }}>
+                                                <img
+                                                    src={URL.createObjectURL(image)}
+                                                    alt={`preview-${index}`}
+                                                    className="w-auto h-[350px] relative"
+                                                />
+                                            </div>
+                                            <button onClick={() => deleteArrayImage(index)} className="button-delete array image absolute top-0 right-0 z-10 "  ><IoCloseCircleOutline color="red" size={34} /></button>
+                                        </>
+                                    </SwiperSlide>
+                                ))
+                            )}
+                        </CaraoselImage>
+
                     </div>
 
-                    <div className="grid grid-cols-2 justify-between my-5 gap-4">
-                        <ButtonPrimary className='rounded-md' >Tambah Image</ButtonPrimary>
-                        <ButtonSecondary className='rounded-md' >Hapus Semua</ButtonSecondary>
+
+                    {/* title and size */}
+                    <div >
+                        <h1 className='my-3 font-semibold text-lg' >Dress besi model anak punk...</h1>
+                        <p className='text-sm text-gray'> Dress ini memiliki kualitas yang baik dari segi material
+                            dengan campuran warna yang cocok, mampu
+                            menciptakan perpaduan yang tolol...</p>
+
+                        <h1 className='my-3 font-medium' >Ukuran Yang Tersedia </h1>
+                        <div className="grid grid-cols-10 text-sm">
+                            <p className='col-span-4 text-gray'>S</p>
+                            <div className="col-span-6 flex  text-gray ms-2">: 5889 </div>
+                        </div>
+                        <div className="grid grid-cols-10 text-sm">
+                            <p className='col-span-4 text-gray'>M</p>
+                            <div className="col-span-6 flex  text-gray ms-2">: 5889  </div>
+                        </div>
+                        <div className="grid grid-cols-10 text-sm">
+                            <p className='col-span-4 text-gray'>L</p>
+                            <div className="col-span-6 flex  text-gray ms-2">: 5889 </div>
+                        </div>
+                        <div className="grid grid-cols-10 text-sm">
+                            <p className='col-span-4 text-gray'>XL</p>
+                            <div className="col-span-6 flex  text-gray ms-2">: 5889 </div>
+                        </div>
+                        <div className="grid grid-cols-10 text-sm">
+                            <p className='col-span-4 text-gray'>XXL</p>
+                            <div className="col-span-6 flex  text-gray ms-2">: 5889 </div>
+                        </div>
+
+
+                        <div className="grid grid-cols-2 justify-between my-5 gap-2">
+                            <ButtonPrimary className='rounded-md relative cursor-pointer py-2 px-1' >Tambah Image
+                                <input
+                                    type="file"
+                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                    id="image-input-add"
+                                    onChange={(e) => handleImageChange(e, 'add')}
+                                />
+                            </ButtonPrimary>
+                            <ButtonSecondary className='rounded-md  py-2 px-1' onClick={() => setForm(prevForm => ({ ...prevForm, images: [] }))} >Hapus Semua</ButtonSecondary>
+                        </div>
+                        <ButtonPrimary className='rounded-md w-full py-2 px-1' >Buat Product</ButtonPrimary>
                     </div>
-                    <ButtonPrimary className='rounded-md w-full ' >Buat Product</ButtonPrimary>
 
-
-                    {/* <button >tambah
-                        <input
-                            type="file"
-                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                            id="image-input-add"
-                            onChange={(e) => handleImageChange(e, 'add')}
-                        />
-                    </button> */}
                 </Card>
             </div>
         </DefaultLayout>
