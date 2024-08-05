@@ -1,5 +1,7 @@
 'use client'
 
+import ButtonPrimary from '@/components/elements/buttonPrimary'
+import ButtonSecondary from '@/components/elements/buttonSecondary'
 import Card from '@/components/elements/card/Card'
 import InputForm from '@/components/elements/input/InputForm'
 import CaraoselImage from '@/components/fragemnts/caraoselProduct/caraoselProduct'
@@ -96,7 +98,7 @@ const AddProduct = (props: Props) => {
 
                 </Card>
 
-                <Card className='col-span-2' >
+                <Card className='col-span-2' padding='p-5' >
                     <CaraoselImage>
                         {form.images.length > 0 && (
                             form.images.map((image, index) => (
@@ -106,7 +108,7 @@ const AddProduct = (props: Props) => {
                                             <img
                                                 src={URL.createObjectURL(image)}
                                                 alt={`preview-${index}`}
-                                                className="w-auto h-[200px] relative"
+                                                className="w-auto h-[350px] relative"
                                             />
                                         </div>
                                         <button onClick={() => deleteArrayImage(index)} className="button-delete array image absolute top-0 right-0 z-10 "  ><IoCloseCircleOutline color="red" size={34} /></button>
@@ -115,14 +117,48 @@ const AddProduct = (props: Props) => {
                             ))
                         )}
                     </CaraoselImage>
-                    <button >tambah
+                    <h1 className='my-3 font-semibold text-lg' >Dress besi model anak punk...</h1>
+                    <p className='text-sm text-gray'> Dress ini memiliki kualitas yang baik dari segi material
+                        dengan campuran warna yang cocok, mampu
+                        menciptakan perpaduan yang tolol...</p>
+
+                    <h1 className='my-3 font-medium' >Ukuran Yang Tersedia </h1>
+                    <div className="grid grid-cols-10">
+                        <p className='col-span-4 text-gray'>S</p>
+                        <div className="col-span-6 flex  text-gray ms-2">: 5889 </div>
+                    </div>
+                    <div className="grid grid-cols-10">
+                        <p className='col-span-4 text-gray'>M</p>
+                        <div className="col-span-6 flex  text-gray ms-2">: 5889  </div>
+                    </div>
+                    <div className="grid grid-cols-10">
+                        <p className='col-span-4 text-gray'>L</p>
+                        <div className="col-span-6 flex  text-gray ms-2">: 5889 </div>
+                    </div>
+                    <div className="grid grid-cols-10">
+                        <p className='col-span-4 text-gray'>XL</p>
+                        <div className="col-span-6 flex  text-gray ms-2">: 5889 </div>
+                    </div>
+                    <div className="grid grid-cols-10">
+                        <p className='col-span-4 text-gray'>XXL</p>
+                        <div className="col-span-6 flex  text-gray ms-2">: 5889 </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 justify-between my-5 gap-4">
+                        <ButtonPrimary className='rounded-md' >Tambah Image</ButtonPrimary>
+                        <ButtonSecondary className='rounded-md' >Hapus Semua</ButtonSecondary>
+                    </div>
+                    <ButtonPrimary className='rounded-md w-full ' >Buat Product</ButtonPrimary>
+
+
+                    {/* <button >tambah
                         <input
                             type="file"
                             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                             id="image-input-add"
                             onChange={(e) => handleImageChange(e, 'add')}
                         />
-                    </button>
+                    </button> */}
                 </Card>
             </div>
         </DefaultLayout>
