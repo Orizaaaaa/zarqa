@@ -11,7 +11,7 @@ const options: ApexOptions = {
   colors: ["#3C50E0", "#80CAEE"],
   chart: {
     fontFamily: "Satoshi, sans-serif",
-    height: 335,
+    height: 395,
     type: "area",
     dropShadow: {
       enabled: true,
@@ -111,7 +111,7 @@ const options: ApexOptions = {
       },
     },
     min: 0,
-    max: 100,
+    max: 500,
   },
 };
 
@@ -127,7 +127,7 @@ const ChartOne: React.FC = () => {
     series: [
       {
         name: "Product One",
-        data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
+        data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 300, 45],
       },
 
       {
@@ -145,7 +145,7 @@ const ChartOne: React.FC = () => {
   handleReset;
 
   return (
-    <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 pt-7.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-8">
+    <div className="col-span-12 mt-5 rounded-lg bg-white px-5 pb-5 pt-7.5 shadow-defaultsm:px-7.5 xl:col-span-8 ">
       <div className="flex flex-wrap items-start justify-between gap-3 sm:flex-nowrap">
         <div className="flex w-full flex-wrap gap-3 sm:gap-5">
           <div className="flex min-w-47.5">

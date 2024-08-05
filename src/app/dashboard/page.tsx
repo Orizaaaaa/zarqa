@@ -7,6 +7,7 @@ import Image from "next/image";
 import CardBox from "@/components/fragemnts/cardBox/CardBox";
 import { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
+import ChartOne from "@/components/fragemnts/Charts/ChartOne";
 
 const Dashboard: React.FC = () => {
     const chartRef = useRef<HTMLCanvasElement | null>(null);
@@ -197,9 +198,11 @@ const Dashboard: React.FC = () => {
             </div>
 
 
-            <Card className=" col-span-4 w-full h-full min-h-[70vh] mt-5"  >
+            {/* <Card className=" col-span-4 w-full h-full min-h-[70vh] mt-5"  >
                 <canvas className="w-full h-full bg-white" ref={chartRef} ></canvas>
-            </Card>
+            </Card> */}
+
+            <ChartOne />
         </DefaultLayout>
 
     );
