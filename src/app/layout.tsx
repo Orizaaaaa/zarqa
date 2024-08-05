@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "../css/globals.css";
+import 'swiper/css';
+import 'swiper/css/pagination';
 import { ReduxProvider } from "@/redux/provider";
 import { interFont } from "@/utils/font";
 

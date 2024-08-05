@@ -2,8 +2,11 @@
 
 import Card from '@/components/elements/card/Card'
 import InputForm from '@/components/elements/input/InputForm'
+import CaraoselImage from '@/components/fragemnts/caraoselProduct/caraoselProduct'
 import DefaultLayout from '@/components/layouts/DefaultLayout'
 import React from 'react'
+import { IoCloseCircleOutline } from 'react-icons/io5'
+import { SwiperSlide } from 'swiper/react'
 
 type Props = {}
 
@@ -17,9 +20,32 @@ const AddProduct = (props: Props) => {
     const handleChange = (e: any) => {
         setForm({ ...form, [e.target.name]: e.target.value })
     }
+
+    //image handle
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, InputSelect: string) => {
+        if (InputSelect === 'add') {
+            const selectedImage = e.target.files?.[0];
+            if (selectedImage) {
+                setForm(prevState => ({
+                    ...prevState,
+                    images: [...prevState.images, selectedImage]
+                }));
+            }
+        } else {
+            console.log('error');
+        }
+    };
+
+    const deleteArrayImage = (index: number) => {
+        setForm(prevState => ({
+            ...prevState,
+            images: prevState.images.filter((_, i) => i !== index)
+        }));
+    };
+
     return (
         <DefaultLayout>
-            <div className="grid grid-cols-6">
+            <div className="grid grid-cols-6 gap-3">
                 <Card className='col-span-4' padding='p-3'>
                     <h1 className='text-xl font-medium' >General Information</h1>
                     <div className="input mt-5">
@@ -68,6 +94,35 @@ const AddProduct = (props: Props) => {
 
                     </div>
 
+                </Card>
+
+                <Card className='col-span-2' >
+                    <CaraoselImage>
+                        {form.images.length > 0 && (
+                            form.images.map((image, index) => (
+                                <SwiperSlide key={index}>
+                                    <>
+                                        <div className="flex justify-center items-center" style={{ pointerEvents: 'none' }}>
+                                            <img
+                                                src={URL.createObjectURL(image)}
+                                                alt={`preview-${index}`}
+                                                className="w-auto h-[200px] relative"
+                                            />
+                                        </div>
+                                        <button onClick={() => deleteArrayImage(index)} className="button-delete array image absolute top-0 right-0 z-10 "  ><IoCloseCircleOutline color="red" size={34} /></button>
+                                    </>
+                                </SwiperSlide>
+                            ))
+                        )}
+                    </CaraoselImage>
+                    <button >tambah
+                        <input
+                            type="file"
+                            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                            id="image-input-add"
+                            onChange={(e) => handleImageChange(e, 'add')}
+                        />
+                    </button>
                 </Card>
             </div>
         </DefaultLayout>
