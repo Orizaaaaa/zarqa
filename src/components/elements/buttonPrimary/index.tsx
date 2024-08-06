@@ -5,11 +5,12 @@ type Props = {
     onClick?: () => void
     className?: string
     type?: 'string'
+    disabled?: boolean
 }
 
-const ButtonPrimary = ({ children, onClick, className }: Props) => {
+const ButtonPrimary = ({ children, onClick, className, disabled }: Props) => {
     return (
-        <button className={`bg-primary  text-white  ${className}`} onClick={onClick}  >
+        <button disabled={disabled} className={`bg-primary  text-white  ${className}`} onClick={onClick}  >
             {children}
         </button >
     )
