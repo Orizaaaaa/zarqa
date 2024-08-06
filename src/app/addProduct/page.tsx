@@ -1,5 +1,6 @@
 'use client'
 
+import { createProduct } from '@/api/products'
 import ButtonPrimary from '@/components/elements/buttonPrimary'
 import ButtonSecondary from '@/components/elements/buttonSecondary'
 import Card from '@/components/elements/card/Card'
@@ -10,13 +11,14 @@ import React from 'react'
 import { IoClose, IoCloseCircleOutline } from 'react-icons/io5'
 import { SwiperSlide } from 'swiper/react'
 
-type Props = {}
 
-const AddProduct = (props: Props) => {
+
+const AddProduct = () => {
+    const [selectedSize, setSelectedSize] = React.useState<string>('S');
     const [form, setForm] = React.useState({
-        title: '',
+        name: '',
         description: '',
-        warna: '',
+        color: '',
         images: [] as File[],
         productType: [
             {
@@ -27,8 +29,8 @@ const AddProduct = (props: Props) => {
         ],
     });
 
-    const [selectedSize, setSelectedSize] = React.useState<string>('S');
 
+    //perubahan text
     const handleChange = (e: any) => {
         const { name, value } = e.target;
         setForm({
@@ -37,6 +39,8 @@ const AddProduct = (props: Props) => {
         });
     };
 
+
+    //handle button size dinamis
     const handleSizeClick = (size: string) => {
         setSelectedSize(size);
         if (!form.productType.some(product => product.size === size)) {
@@ -68,7 +72,6 @@ const AddProduct = (props: Props) => {
 
 
 
-
     //image handle
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, InputSelect: string) => {
         if (InputSelect === 'add') {
@@ -91,13 +94,26 @@ const AddProduct = (props: Props) => {
         }));
     };
 
+    const handleCreateProduct = () => {
+        createProduct(form, (result: any, error: any) => {
+            if (result) {
+                console.log('success');
+                console.log(result);
+
+            } else {
+                console.log(error);
+                console.log(result);
+            }
+        })
+    };
+
     return (
         <DefaultLayout>
             <div className="grid grid-cols-1 lg:grid-cols-6 gap-3">
                 <Card className='lg:col-span-4' padding='p-3'>
                     <h1 className='text-xl font-medium'>General Information</h1>
                     <div className="input mt-5">
-                        <InputForm className='bg-[#EEEEEE]' htmlFor="title" title="Nama Produk" type="text" onChange={handleChange} value={form.title} placeholder="" />
+                        <InputForm className='bg-[#EEEEEE]' htmlFor="name" title="Nama Produk" type="text" onChange={handleChange} value={form.name} placeholder="" />
 
                         <label htmlFor="description" className="block mt-4 mb-1 font-medium">Deskripsi</label>
                         <textarea name="description" onChange={handleChange} value={form.description}
@@ -121,7 +137,7 @@ const AddProduct = (props: Props) => {
                             <div className="color">
                                 <h1 className='font-medium'>Warna</h1>
                                 <p className='text-sm text-graydark'>Masukan warna produk</p>
-                                <InputForm className='border-2 border-primary mt-3' htmlFor="warna" type="text" onChange={handleChange} value={form.warna} placeholder="" />
+                                <InputForm className='border-2 border-primary mt-3' htmlFor="color" type="text" onChange={handleChange} value={form.color} placeholder="" />
                             </div>
                         </div>
 
@@ -189,7 +205,7 @@ const AddProduct = (props: Props) => {
                             </ButtonPrimary>
                             <ButtonSecondary className='rounded-md  py-2 px-1' onClick={() => setForm(prevForm => ({ ...prevForm, images: [] }))} >Hapus Semua</ButtonSecondary>
                         </div>
-                        <ButtonPrimary className='rounded-md w-full py-2 px-1' >Buat Product</ButtonPrimary>
+                        <ButtonPrimary className='rounded-md w-full py-2 px-1' onClick={handleCreateProduct}>Buat Product</ButtonPrimary>
                     </div>
 
                 </Card>

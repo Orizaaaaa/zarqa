@@ -54,6 +54,7 @@ const Login = () => {
         await loginService(form, (status: boolean, res: any) => {
             if (status) {
                 console.log(res.data);
+                localStorage.setItem('token', res.data.token)
                 document.cookie = `token=${res.data.token}`
                 router.push('/dashboard');
             } else {
