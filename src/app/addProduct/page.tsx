@@ -134,7 +134,7 @@ const AddProduct = (props: Props) => {
                 </Card>
 
                 {/* card right */}
-                <Card className='col-span-2 h-full flex flex-col justify-end order-first lg:order-last' padding='p-5' >
+                <Card className='lg:col-span-2 h-full flex flex-col justify-end order-first lg:order-last' padding='p-3 lg:p-5' >
 
                     {/* caraosel */}
                     <div>
