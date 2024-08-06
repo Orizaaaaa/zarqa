@@ -4,6 +4,8 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { ReduxProvider } from "@/redux/provider";
 import { interFont } from "@/utils/font";
+import { ProviderNextUI } from "@/lib/nextProvider";
+
 
 
 export const metadata: Metadata = {
@@ -21,9 +23,11 @@ export default function RootLayout({
     <ReduxProvider>
       <html lang="en">
         <body >
-          <div className={` ${interFont.className} dark:bg-boxdark-2 dark:text-bodydark`}>
-            {children}
-          </div>
+          <ProviderNextUI>
+            <div className={` ${interFont.className} dark:bg-boxdark-2 dark:text-bodydark`}>
+              {children}
+            </div>
+          </ProviderNextUI>
         </body>
       </html>
     </ReduxProvider>
