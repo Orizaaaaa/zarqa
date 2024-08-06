@@ -108,7 +108,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             <ul className="mb-6 flex flex-col gap-1.5">
               {/* <!-- Menu Item Dashboard --> */}
               <NavigationList icon={<RxDashboard size={19} />} title="Dasboard" pathname="/dashboard" />
-              <NavigationList icon={<IoStorefront size={19} />} title="Tambah Product" pathname="/addProduct" />
+              <NavigationList icon={<IoStorefront size={19} />} title="Tambah Produk" pathname="/addProduct" />
 
 
               {/* <!-- Menu Item Calendar -->
