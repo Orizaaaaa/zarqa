@@ -7,27 +7,34 @@ import InputForm from '@/components/elements/input/InputForm'
 import CaraoselImage from '@/components/fragemnts/caraoselProduct/caraoselProduct'
 import DefaultLayout from '@/components/layouts/DefaultLayout'
 import React from 'react'
-import { IoCloseCircleOutline } from 'react-icons/io5'
+import { IoClose, IoCloseCircleOutline } from 'react-icons/io5'
 import { SwiperSlide } from 'swiper/react'
 
 type Props = {}
 
 const AddProduct = (props: Props) => {
-    const [selectedSize, setSelectedSize] = React.useState<string>('S');
     const [form, setForm] = React.useState({
         title: '',
         description: '',
         warna: '',
         images: [] as File[],
         productType: [
-            { size: 'S', price: '', stock: '' }
+            {
+                size: 'S',
+                price: '',
+                stock: '',
+            }
         ],
+    });
 
-    })
+    const [selectedSize, setSelectedSize] = React.useState<string>('S');
 
-    //size and stock
     const handleChange = (e: any) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setForm({
+            ...form,
+            [name]: (name === 'price' || name === 'stock') ? Number(value) : value
+        });
     };
 
     const handleSizeClick = (size: string) => {
@@ -39,18 +46,27 @@ const AddProduct = (props: Props) => {
     };
 
     const updateProductType = (key: 'price' | 'stock', value: string) => {
+        const numberValue = Number(value);
         const updatedProductType = form.productType.map(product => {
             if (product.size === selectedSize) {
-                return { ...product, [key]: value };
+                return { ...product, [key]: numberValue };
             }
             return product;
         });
         setForm({ ...form, productType: updatedProductType });
     };
 
+    const handleDelete = (size: string) => {
+        const updatedProductType = form.productType.filter(product => product.size !== size);
+        setForm({ ...form, productType: updatedProductType });
+        setSelectedSize(updatedProductType.length > 0 ? updatedProductType[0].size : 'S');
+    };
+
     const selectedProduct = form.productType.find(product => product.size === selectedSize);
 
     const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
+
+
 
 
     //image handle
@@ -111,9 +127,8 @@ const AddProduct = (props: Props) => {
 
                         {/* Form untuk price dan stock */}
                         <div className="grid gap-5 grid-cols-1 lg:grid-cols-2">
-                            <InputForm className='bg-[#EEEEEE]' htmlFor="price" title="Harga" type="text" onChange={(e: any) => updateProductType('price', e.target.value)} value={selectedProduct?.price || ''} placeholder="" />
-
-                            <InputForm className='bg-[#EEEEEE]' htmlFor="stock" title="Stock" type="text" onChange={(e: any) => updateProductType('stock', e.target.value)} value={selectedProduct?.stock || ''} placeholder="" />
+                            <InputForm className='bg-[#EEEEEE]' htmlFor="price" title="Harga" type="number" onChange={(e: any) => updateProductType('price', e.target.value)} value={selectedProduct?.price || ''} placeholder="" />
+                            <InputForm className='bg-[#EEEEEE]' htmlFor="stock" title="Stock" type="number" onChange={(e: any) => updateProductType('stock', e.target.value)} value={selectedProduct?.stock || ''} placeholder="" />
                         </div>
                     </div>
                 </Card>
@@ -153,26 +168,14 @@ const AddProduct = (props: Props) => {
                             menciptakan perpaduan yang tolol...</p>
 
                         <h1 className='my-3 font-medium' >Ukuran Yang Tersedia </h1>
-                        <div className="grid grid-cols-10 text-sm">
-                            <p className='col-span-4 text-gray'>S</p>
-                            <div className="col-span-6 flex  text-gray ms-2">: 5889 </div>
-                        </div>
-                        <div className="grid grid-cols-10 text-sm">
-                            <p className='col-span-4 text-gray'>M</p>
-                            <div className="col-span-6 flex  text-gray ms-2">: 5889  </div>
-                        </div>
-                        <div className="grid grid-cols-10 text-sm">
-                            <p className='col-span-4 text-gray'>L</p>
-                            <div className="col-span-6 flex  text-gray ms-2">: 5889 </div>
-                        </div>
-                        <div className="grid grid-cols-10 text-sm">
-                            <p className='col-span-4 text-gray'>XL</p>
-                            <div className="col-span-6 flex  text-gray ms-2">: 5889 </div>
-                        </div>
-                        <div className="grid grid-cols-10 text-sm">
-                            <p className='col-span-4 text-gray'>XXL</p>
-                            <div className="col-span-6 flex  text-gray ms-2">: 5889 </div>
-                        </div>
+                        {form.productType.map(product => (
+                            <div key={product.size} className="grid grid-cols-10 text-sm">
+                                <p className='col-span-4 text-gray'>{product.size}</p>
+                                <div className="col-span-6 flex text-gray ms-2">: {product.stock}
+                                    <button className="ml-2 text-red-500" onClick={() => handleDelete(product.size)}><IoClose color="red" /></button>
+                                </div>
+                            </div>
+                        ))}
 
 
                         <div className="grid grid-cols-2 justify-between my-5 gap-2">
