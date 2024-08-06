@@ -2,12 +2,12 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
-import { logo, logoKotak } from '../image';
+import { logoKotak } from '../image';
 import InputForm from '@/components/elements/input/InputForm';
 import ButtonPrimary from '@/components/elements/buttonPrimary';
-import Link from 'next/link';
 import { FaEyeSlash } from 'react-icons/fa6';
 import { IoEye } from 'react-icons/io5';
+import { url } from '@/api/auth';
 
 
 const Login = () => {
@@ -56,6 +56,7 @@ const Login = () => {
         document.cookie = 'token=your-token-here'; // Set a dummy token
         router.push('/dashboard');
     };
+
 
 
     return (
