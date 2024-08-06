@@ -7,7 +7,7 @@ import InputForm from '@/components/elements/input/InputForm';
 import ButtonPrimary from '@/components/elements/buttonPrimary';
 import { FaEyeSlash } from 'react-icons/fa6';
 import { IoEye } from 'react-icons/io5';
-import { url } from '@/api/auth';
+import { loginService, url } from '@/api/auth';
 
 
 const Login = () => {
@@ -51,10 +51,16 @@ const Login = () => {
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Perform login logic here
-        // Example: if login is successful, set a cookie and redirect to the dashboard
-        document.cookie = 'token=your-token-here'; // Set a dummy token
-        router.push('/dashboard');
+        await loginService(form, (status: boolean, res: any) => {
+            if (status) {
+                console.log(res.data);
+                document.cookie = `token=${res.data.token}`
+                router.push('/dashboard');
+            } else {
+                setErrorLogin('*Email atau password salah')
+                console.log(res.data);
+            }
+        })
     };
 
 
