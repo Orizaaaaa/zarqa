@@ -13,15 +13,45 @@ import { SwiperSlide } from 'swiper/react'
 type Props = {}
 
 const AddProduct = (props: Props) => {
+    const [selectedSize, setSelectedSize] = React.useState<string>('S');
     const [form, setForm] = React.useState({
         title: '',
         description: '',
         warna: '',
-        images: [] as File[]
+        images: [] as File[],
+        productType: [
+            { size: 'S', price: '', stock: '' }
+        ],
+
     })
+
+    //size and stock
     const handleChange = (e: any) => {
-        setForm({ ...form, [e.target.name]: e.target.value })
-    }
+        setForm({ ...form, [e.target.name]: e.target.value });
+    };
+
+    const handleSizeClick = (size: string) => {
+        setSelectedSize(size);
+        if (!form.productType.some(product => product.size === size)) {
+            const newProductType = [...form.productType, { size, price: '', stock: '' }];
+            setForm({ ...form, productType: newProductType });
+        }
+    };
+
+    const updateProductType = (key: 'price' | 'stock', value: string) => {
+        const updatedProductType = form.productType.map(product => {
+            if (product.size === selectedSize) {
+                return { ...product, [key]: value };
+            }
+            return product;
+        });
+        setForm({ ...form, productType: updatedProductType });
+    };
+
+    const selectedProduct = form.productType.find(product => product.size === selectedSize);
+
+    const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
+
 
     //image handle
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, InputSelect: string) => {
@@ -49,53 +79,43 @@ const AddProduct = (props: Props) => {
         <DefaultLayout>
             <div className="grid grid-cols-1 lg:grid-cols-6 gap-3">
                 <Card className='lg:col-span-4' padding='p-3'>
-                    <h1 className='text-xl font-medium' >General Information</h1>
+                    <h1 className='text-xl font-medium'>General Information</h1>
                     <div className="input mt-5">
                         <InputForm className='bg-[#EEEEEE]' htmlFor="title" title="Nama Produk" type="text" onChange={handleChange} value={form.title} placeholder="" />
 
-                        <label htmlFor="description" className="block mt-4 mb-1 font-medium ">Deskripsi</label>
+                        <label htmlFor="description" className="block mt-4 mb-1 font-medium">Deskripsi</label>
                         <textarea name="description" onChange={handleChange} value={form.description}
-                            className="block text-black p-2.5 w-full  h-34 text-sm rounded-lg bg-[#EEEEEE] outline-none"
+                            className="block text-black p-2.5 w-full h-34 text-sm rounded-lg bg-[#EEEEEE] outline-none"
                             placeholder=""></textarea>
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 mt-5">
                             <div className="size">
-                                <h1 className=' font-medium' >Size</h1>
+                                <h1 className='font-medium'>Size</h1>
                                 <p className='text-sm text-graydark'>Pilih ukuran yang tersedia</p>
                                 <div className="flex mt-2 mb-6 gap-3">
-                                    <button className='w-11 h-11 bg-[#EEEEEE] rounded-md flex justify-center items-center font-semibold'>
-                                        S
-                                    </button>
-                                    <button className='w-11 h-11 bg-[#EEEEEE] rounded-md flex justify-center items-center font-semibold'>
-                                        M
-                                    </button>
-                                    <button className='w-11 h-11 bg-[#EEEEEE] rounded-md flex justify-center items-center font-semibold'>
-                                        L
-                                    </button>
-                                    <button className='w-11 h-11 bg-[#EEEEEE] rounded-md flex justify-center items-center font-semibold'>
-                                        XL
-                                    </button>
-                                    <button className='w-11 h-11 bg-[#EEEEEE] rounded-md flex justify-center items-center font-semibold'>
-                                        XXL
-                                    </button>
+                                    {sizes.map(size => (
+                                        <button key={size}
+                                            className={`w-11 h-11 ${form.productType.some(product => product.size === size) ? 'bg-gray-400' : 'bg-[#EEEEEE]'} rounded-md flex justify-center items-center font-semibold`}
+                                            onClick={() => handleSizeClick(size)}>
+                                            {size}
+                                        </button>
+                                    ))}
                                 </div>
-
                             </div>
                             <div className="color">
-                                <h1 className=' font-medium' >Warna</h1>
+                                <h1 className='font-medium'>Warna</h1>
                                 <p className='text-sm text-graydark'>Masukan warna produk</p>
-                                <InputForm className='border-2 border-primary mt-3 ' htmlFor="warna" type="text" onChange={handleChange} value={form.warna} placeholder="" />
+                                <InputForm className='border-2 border-primary mt-3' htmlFor="warna" type="text" onChange={handleChange} value={form.warna} placeholder="" />
                             </div>
                         </div>
 
-                        <div className="grid gap-5 grid-cols-1 lg:grid-cols-2 ">
-                            <InputForm className='bg-[#EEEEEE]' htmlFor="title" title="Harga" type="text" onChange={handleChange} value={form.title} placeholder="" />
-                            <InputForm className='bg-[#EEEEEE]' htmlFor="title" title="Stock" type="text" onChange={handleChange} value={form.title} placeholder="" />
+                        {/* Form untuk price dan stock */}
+                        <div className="grid gap-5 grid-cols-1 lg:grid-cols-2">
+                            <InputForm className='bg-[#EEEEEE]' htmlFor="price" title="Harga" type="text" onChange={(e: any) => updateProductType('price', e.target.value)} value={selectedProduct?.price || ''} placeholder="" />
+
+                            <InputForm className='bg-[#EEEEEE]' htmlFor="stock" title="Stock" type="text" onChange={(e: any) => updateProductType('stock', e.target.value)} value={selectedProduct?.stock || ''} placeholder="" />
                         </div>
-
-
                     </div>
-
                 </Card>
 
                 {/* card right */}
