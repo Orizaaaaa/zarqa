@@ -95,7 +95,7 @@ const AddProduct = (props: Props) => {
                                 <div className="flex mt-2 mb-6 gap-3">
                                     {sizes.map(size => (
                                         <button key={size}
-                                            className={`w-11 h-11 ${form.productType.some(product => product.size === size) ? 'bg-gray-400' : 'bg-[#EEEEEE]'} rounded-md flex justify-center items-center font-semibold`}
+                                            className={`w-11 h-11 ${form.productType.some(product => product.size === size) ? 'bg-black text-white' : 'bg-[#EEEEEE]'} rounded-md flex justify-center items-center font-semibold`}
                                             onClick={() => handleSizeClick(size)}>
                                             {size}
                                         </button>
