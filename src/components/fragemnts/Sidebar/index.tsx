@@ -8,6 +8,7 @@ import { logo } from "@/app/image";
 import Image from "next/image";
 import { IoPricetags, IoStorefront } from "react-icons/io5";
 import { FaUserGear } from "react-icons/fa6";
+import ButtonSecondary from "@/components/elements/buttonSecondary";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -112,6 +113,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <NavigationList icon={<IoStorefront size={19} />} title="Semua Produk" pathname="/products" />
               <NavigationList icon={<IoPricetags size={19} />} title="Tambah Produk" pathname="/addProduct" />
               <NavigationList icon={<FaUserGear size={19} />} title="Permintaan Barang" pathname="/demandProducts" />
+              <ButtonSecondary className="w-full py-1 rounded-md font-medium" >Logout</ButtonSecondary>
 
 
               {/* <!-- Menu Item Calendar -->
