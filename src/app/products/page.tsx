@@ -7,7 +7,6 @@ import { cookies } from "next/headers";
 
 async function getData(): Promise<any[]> {
     const data = await fetch(`${url}/product/list`, {
-        cache: "no-cache",
         headers: {
             'Authorization': cookies().get('token')?.value || ''
         }
