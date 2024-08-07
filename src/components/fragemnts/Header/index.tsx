@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import DropdownUser from "./DropdownUser";
-import { logo1 } from "@/app/image";
+
 import DropdownNotification from "./DropdownNotification";
+import { logoKotak } from "@/app/image";
+import Image from "next/image";
 
 
 
@@ -54,10 +56,10 @@ const Header = (props: {
           {/* <!-- Hamburger Toggle BTN --> */}
 
           <Link className="block flex-shrink-0 lg:hidden" href={"/"}>
-            <img
+            <Image
               width={37}
               height={40}
-              src={logo1}
+              src={logoKotak}
               alt="Logo"
             />
           </Link>

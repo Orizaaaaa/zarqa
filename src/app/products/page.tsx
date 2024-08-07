@@ -28,7 +28,7 @@ export default async function Products() {
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5  gap-3" >
                     {apiData?.map((item: any) => (
                         <CardProduct key={item.id} location={`/products/${item.id}`} name={item.name} image={item.images?.[0]} stock={item.total_stock}
-                            size={item?.productType.map((item: any) => <p className="text-sm text-slate-500 mr-1" > {item.size} </p>)} />
+                            size={item?.productType.map((item: any, index: any) => <p key={index} className="text-sm text-slate-500 mr-1" > {item.size} </p>)} />
                     ))}
                 </div>
             </div>
