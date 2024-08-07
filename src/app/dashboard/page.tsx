@@ -4,10 +4,8 @@ import Card from "@/components/elements/card/Card";
 import { manusiaLaptop } from "../image";
 import DefaultLayout from "@/components/layouts/DefaultLayout";
 import Image from "next/image";
-import CardBox from "@/components/fragemnts/cardBox/CardBox";
-import ChartOne from "@/components/fragemnts/Charts/ChartOne";
-import ChartTwo from "@/components/fragemnts/Charts/ChartTwo";
-import ChartThree from "@/components/fragemnts/Charts/ChartThree";
+import CardBox from "@/components/fragemnts/cardBox/CardBox";;
+import ChartLine from "@/components/fragemnts/chartLine/ChartLine";
 
 const Dashboard: React.FC = () => {
 
@@ -31,7 +29,7 @@ const Dashboard: React.FC = () => {
                 <CardBox />
                 <CardBox />
             </div>
-            <ChartOne />
+            <ChartLine />
         </DefaultLayout>
 
     );
