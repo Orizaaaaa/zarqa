@@ -12,14 +12,17 @@ import React from 'react'
 import { IoClose, IoCloseCircleOutline } from 'react-icons/io5'
 import { SwiperSlide } from 'swiper/react'
 import { inputIMage } from '../image'
+import { postImagesArray } from '@/api/imagePost'
+import { Spinner } from '@nextui-org/react'
 
 
 
 const AddProduct = () => {
     const [selectedSize, setSelectedSize] = React.useState<string>('S');
+    const [error, setError] = React.useState(false);
+    const [loading, setLoading] = React.useState(false)
     const [form, setForm] = React.useState({
         name: '',
-        description: '',
         supplierId: '66a736172d8b834d7f049204',
         color: '',
         images: [] as File[],
@@ -97,17 +100,42 @@ const AddProduct = () => {
         }));
     };
 
-    const handleCreateProduct = () => {
-        createProduct(form, (result: any, error: any) => {
-            if (result) {
-                console.log('success');
-                console.log(result);
-
-            } else {
-                console.log(error);
-                console.log(result);
+    const handleCreateProduct = async () => {
+        setLoading(true);
+        if (!form.name || !form.color || !form.images.length || !form.productType.length) {
+            setError(true);
+            setLoading(false);
+        } else {
+            setError(false);
+            const urls: string[] = await postImagesArray({ images: form.images })
+            const data = {
+                ...form,
+                images: urls
             }
-        })
+            createProduct(data, (status: any, result: any) => {
+                if (status) {
+                    console.log('success');
+                    console.log(result);
+                } else {
+                    console.log(result);
+                }
+            })
+
+            setForm({
+                name: '',
+                supplierId: '66a736172d8b834d7f049204',
+                color: '',
+                images: [] as File[],
+                productType: [
+                    {
+                        size: 'S',
+                        price: '',
+                        stock: '',
+                    }
+                ],
+            });
+            setLoading(false);
+        }
     };
 
     return (
@@ -152,6 +180,7 @@ const AddProduct = () => {
                             <InputForm className='bg-[#EEEEEE]' htmlFor="stock" title="Stock" type="number" onChange={(e: any) => updateProductType('stock', e.target.value)} value={selectedProduct?.stock || ''} placeholder="" />
                         </div>
                     </div>
+
                 </Card>
 
                 {/* card right */}
@@ -215,7 +244,10 @@ const AddProduct = () => {
                             </ButtonPrimary>
                             <ButtonSecondary className='rounded-md  py-2 px-1' onClick={() => setForm(prevForm => ({ ...prevForm, images: [] }))} >Hapus Semua</ButtonSecondary>
                         </div>
-                        <ButtonPrimary className='rounded-md w-full py-2 px-1' onClick={handleCreateProduct}>Buat Product</ButtonPrimary>
+                        <ButtonPrimary className='rounded-md w-full py-2 px-1' onClick={handleCreateProduct}>
+                            {loading ? <Spinner className={`w-5 h-5 `} size="sm" color="white" /> : 'Buat Product'}
+                        </ButtonPrimary>
+                        <p className={`mt-3 text-sm text-red ${error ? 'block' : 'hidden'}`} > <i>*Error, tolong isi semua form nya dengan benar</i> </p>
                     </div>
 
                 </Card>
