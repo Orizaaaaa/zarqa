@@ -8,6 +8,7 @@ import ButtonPrimary from '@/components/elements/buttonPrimary';
 import { FaEyeSlash } from 'react-icons/fa6';
 import { IoEye } from 'react-icons/io5';
 import { loginService, url } from '@/api/auth';
+import { Spinner } from '@nextui-org/react';
 
 
 const Login = () => {
@@ -16,6 +17,7 @@ const Login = () => {
     const [errorLogin, setErrorLogin] = useState('')
     const [disabled, setDisabled] = useState(true)
     const [typePassword, setTypePassword] = useState("password")
+    const [loading, setLoading] = useState(false)
     const [form, setForm] = useState({
         email: '',
         password: ''
@@ -50,6 +52,7 @@ const Login = () => {
     }
 
     const handleLogin = async (e: React.FormEvent) => {
+        setLoading(true)
         e.preventDefault();
         await loginService(form, (status: boolean, res: any) => {
             if (status) {
@@ -57,6 +60,7 @@ const Login = () => {
                 localStorage.setItem('token', res.data.token)
                 document.cookie = `token=${res.data.token}`
                 router.push('/dashboard');
+                setLoading(false)
             } else {
                 setErrorLogin('*Email atau password salah')
                 console.log(res.data);
@@ -81,7 +85,7 @@ const Login = () => {
                     </div>
                     <p className='text-red my-3 text-sm' >{errorLogin}</p>
                     <ButtonPrimary disabled={disabled} className={`rounded-lg w-full mb-3 font-medium py-2 `}>
-                        Login
+                        {loading ? <Spinner className={`w-5 h-5 `} size="sm" color="white" /> : 'Login'}
                     </ButtonPrimary>
                 </form>
             </div>
