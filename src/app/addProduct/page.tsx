@@ -7,9 +7,11 @@ import Card from '@/components/elements/card/Card'
 import InputForm from '@/components/elements/input/InputForm'
 import CaraoselImage from '@/components/fragemnts/caraoselProduct/caraoselProduct'
 import DefaultLayout from '@/components/layouts/DefaultLayout'
+import Image from 'next/image'
 import React from 'react'
 import { IoClose, IoCloseCircleOutline } from 'react-icons/io5'
 import { SwiperSlide } from 'swiper/react'
+import { inputIMage } from '../image'
 
 
 
@@ -18,6 +20,7 @@ const AddProduct = () => {
     const [form, setForm] = React.useState({
         name: '',
         description: '',
+        supplierId: '66a736172d8b834d7f049204',
         color: '',
         images: [] as File[],
         productType: [
@@ -115,10 +118,12 @@ const AddProduct = () => {
                     <div className="input mt-5">
                         <InputForm className='bg-[#EEEEEE]' htmlFor="name" title="Nama Produk" type="text" onChange={handleChange} value={form.name} placeholder="" />
 
-                        <label htmlFor="description" className="block mt-4 mb-1 font-medium">Deskripsi</label>
+                        {/* ini adalah form deskripsi jaga jaga kalo nanti kepake */}
+
+                        {/* <label htmlFor="description" className="block mt-4 mb-1 font-medium">Deskripsi</label>
                         <textarea name="description" onChange={handleChange} value={form.description}
                             className="block text-black p-2.5 w-full h-34 text-sm rounded-lg bg-[#EEEEEE] outline-none"
-                            placeholder=""></textarea>
+                            placeholder=""></textarea> */}
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 mt-5">
                             <div className="size">
@@ -155,7 +160,7 @@ const AddProduct = () => {
                     {/* caraosel */}
                     <div>
                         <CaraoselImage>
-                            {form.images.length > 0 && (
+                            {form.images.length > 0 ? (
                                 form.images.map((image, index) => (
                                     <SwiperSlide key={index}>
                                         <>
@@ -170,6 +175,10 @@ const AddProduct = () => {
                                         </>
                                     </SwiperSlide>
                                 ))
+                            ) : (
+                                <div className='flex justify-center'>
+                                    <Image className="w-auto h-[350px] relative " src={inputIMage} alt="image"></Image>
+                                </div>
                             )}
                         </CaraoselImage>
 
@@ -178,10 +187,11 @@ const AddProduct = () => {
 
                     {/* title and size */}
                     <div >
-                        <h1 className='my-3 font-semibold text-lg' >Dress besi model anak punk...</h1>
-                        <p className='text-sm text-gray'> Dress ini memiliki kualitas yang baik dari segi material
+                        <h1 className='my-3 font-semibold text-lg' >{form.name}</h1>
+
+                        {/* <p className='text-sm text-gray'> Dress ini memiliki kualitas yang baik dari segi material
                             dengan campuran warna yang cocok, mampu
-                            menciptakan perpaduan yang tolol...</p>
+                            menciptakan perpaduan yang tolol...</p> */}
 
                         <h1 className='my-3 font-medium' >Ukuran Yang Tersedia </h1>
                         {form.productType.map(product => (
