@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import NavigationList from "../NavigationList/NavigationList";
 import { RxDashboard } from "react-icons/rx";
 import { logo } from "@/app/image";
@@ -62,6 +62,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     }
   }, [sidebarExpanded]);
 
+
+  const route = useRouter()
+  const handleLogout = () => {
+    localStorage.clear();
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+    route.push("/login")
+  }
+
   return (
     <aside
       ref={sidebar}
@@ -113,7 +121,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <NavigationList icon={<IoStorefront size={19} />} title="Semua Produk" pathname="/products" />
               <NavigationList icon={<IoPricetags size={19} />} title="Tambah Produk" pathname="/addProduct" />
               <NavigationList icon={<FaUserGear size={19} />} title="Permintaan Barang" pathname="/demandProducts" />
-              <ButtonSecondary className="w-full py-1 rounded-md font-medium" >Logout</ButtonSecondary>
+              <ButtonSecondary className="w-full py-1 rounded-md font-medium" onClick={handleLogout} >Logout</ButtonSecondary>
 
 
               {/* <!-- Menu Item Calendar -->
