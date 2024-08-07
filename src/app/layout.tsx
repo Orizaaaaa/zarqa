@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <ReduxProvider>
       <html lang="en">
-        <body >
+        <body suppressHydrationWarning={true} >
           <ProviderNextUI>
             <div className={` ${interFont.className} dark:bg-boxdark-2 dark:text-bodydark`}>
               {children}
