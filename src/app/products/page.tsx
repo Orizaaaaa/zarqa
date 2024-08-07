@@ -5,7 +5,6 @@ import CardProduct from "@/components/fragemnts/cardProduct"
 import { url } from "@/api/auth";
 import { cookies } from "next/headers";
 
-
 async function getData(): Promise<any[]> {
     const data = await fetch(`${url}/product/list`, {
         cache: "no-cache",
@@ -28,7 +27,8 @@ export default async function Products() {
             <div className="mt-5"  >
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5  gap-3" >
                     {apiData?.map((item: any) => (
-                        <CardProduct key={item.id} name={item.name} image={item.images?.[0]} stock={item.total_stock} />
+                        <CardProduct key={item.id} name={item.name} image={item.images?.[0]} stock={item.total_stock}
+                            size={item?.productType.map((item: any) => <p className="text-sm text-slate-500 mr-1" > {item.size} </p>)} />
                     ))}
                 </div>
             </div>

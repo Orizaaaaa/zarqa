@@ -5,5 +5,6 @@ import jaket from '../assets/jaket.svg'
 import kardus from '../assets/kardus.svg'
 import logoKotak from '../assets/logoKotak.svg'
 import inputIMage from '../assets/inputIMage.png'
+import baju from '../assets/tshirt.png'
 
-export { manusiaLaptop, logo, money, jaket, kardus, logoKotak, inputIMage }
+export { manusiaLaptop, logo, money, jaket, kardus, logoKotak, inputIMage, baju }
