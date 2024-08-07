@@ -1,9 +1,11 @@
+'use client'
 import DefaultLayout from '@/components/layouts/DefaultLayout'
-import React from 'react'
+import { useParams } from 'next/navigation'
 
-type Props = {}
 
-const DetailProduct = (props: Props) => {
+const DetailProduct = () => {
+    const { product_id } = useParams();
+    console.log(product_id);
     return (
         <DefaultLayout>
             <h1>Halaman Detail</h1>
