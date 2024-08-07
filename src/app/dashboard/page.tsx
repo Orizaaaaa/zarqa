@@ -30,7 +30,7 @@ const Dashboard: React.FC = () => {
                 <CardBox />
             </div>
 
-            <ChartOne />
+            {/* <ChartOne /> */}
         </DefaultLayout>
 
     );
