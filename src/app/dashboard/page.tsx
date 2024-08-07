@@ -9,8 +9,6 @@ import ChartOne from "@/components/fragemnts/Charts/ChartOne";
 
 const Dashboard: React.FC = () => {
 
-
-
     return (
         <DefaultLayout>
             <Card>
@@ -31,11 +29,6 @@ const Dashboard: React.FC = () => {
                 <CardBox />
                 <CardBox />
             </div>
-
-
-            {/* <Card className=" col-span-4 w-full h-full min-h-[70vh] mt-5"  >
-                <canvas className="w-full h-full bg-white" ref={chartRef} ></canvas>
-            </Card> */}
 
             <ChartOne />
         </DefaultLayout>
