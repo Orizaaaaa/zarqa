@@ -6,6 +6,8 @@ import DefaultLayout from "@/components/layouts/DefaultLayout";
 import Image from "next/image";
 import CardBox from "@/components/fragemnts/cardBox/CardBox";
 import ChartOne from "@/components/fragemnts/Charts/ChartOne";
+import ChartTwo from "@/components/fragemnts/Charts/ChartTwo";
+import ChartThree from "@/components/fragemnts/Charts/ChartThree";
 
 const Dashboard: React.FC = () => {
 
@@ -29,8 +31,7 @@ const Dashboard: React.FC = () => {
                 <CardBox />
                 <CardBox />
             </div>
-
-            {/* <ChartOne /> */}
+            <ChartOne />
         </DefaultLayout>
 
     );
