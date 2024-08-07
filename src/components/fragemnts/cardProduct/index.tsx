@@ -8,7 +8,7 @@ import { BsThreeDots } from 'react-icons/bs'
 type Props = {
     name: string
     image: string
-    location?: string
+    location?: any
     stock: number
     size: any[]
 }
@@ -19,7 +19,7 @@ const CardProduct = ({ image, location, stock, name, size }: Props) => {
         <Card padding="p-3 rounded-sm flex flex-col justify-between ">
             <>
                 <div className="images min-h-[200px] w-full">
-                    <Link href={'#'}>
+                    <Link href={location}>
                         <img className="w-full h-[190px] md:h-[250px] rounded-md" src={image} alt="jaket" />
                     </Link>
                 </div>
