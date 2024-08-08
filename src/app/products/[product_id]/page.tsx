@@ -38,14 +38,34 @@ interface Product {
 
 const DetailProduct = () => {
     const { product_id } = useParams();
+    const [loading, setLoading] = useState(false)
     const [dataProduct, setDataProduct] = useState<Product | null>(null);
     useEffect(() => {
+        setLoading(true)
         getDetailProduct(product_id, (result: any) => {
             setDataProduct(result)
+            setLoading(false)
         })
     }, []);
 
-    console.log(dataProduct);
+    const suplierData = [
+        {
+            text: 'Nama',
+            data: dataProduct?.supplier?.name
+        },
+        {
+            text: 'Email',
+            data: dataProduct?.supplier?.email
+        },
+        {
+            text: 'No Handphone',
+            data: dataProduct?.supplier?.phone
+        },
+        {
+            text: 'Alamat',
+            data: dataProduct?.supplier?.address
+        }
+    ]
 
 
     return (
@@ -93,11 +113,12 @@ const DetailProduct = () => {
                         </div>
 
                         <h1 className='font-medium text-lg' >Supplier Information</h1>
-                        <hr className='' />
-                        <h1 className='font-medium text-md mb-2 mt-5' >Name : <span className='text-gray' >{dataProduct?.supplier?.name}</span> </h1>
-                        <h1 className='font-medium text-md mb-2' >Email : <span className='text-gray' >{dataProduct?.supplier?.email}</span> </h1>
-                        <h1 className='font-medium text-md mb-2' >No Handphone : <span className='text-gray' >{dataProduct?.supplier?.phone}</span> </h1>
-                        <h1 className='font-medium text-md mb-2' >Adress : <span className='text-gray' >{dataProduct?.supplier?.address}</span> </h1>
+                        <hr className='mb-5' />
+
+                        {suplierData?.map((item, index) => (
+                            <h1 key={index} className='font-medium text-md mb-2 ' > {item.text} : <span className='text-gray' >{item.data}</span> </h1>
+                        ))}
+
                         <div className="flex gap-2 justify-end mt-4">
                             <ButtonPrimary className='px-5 py-2 rounded-md' >Update</ButtonPrimary>
                             <ButtonSecondary className='px-5 py-2 rounded-md' >Delete</ButtonSecondary>
