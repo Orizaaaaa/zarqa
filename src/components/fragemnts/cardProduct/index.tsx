@@ -1,4 +1,4 @@
-import { baju, jaket, kardus } from '@/app/image'
+import { kardus } from '@/app/image'
 import Card from '@/components/elements/card/Card'
 import Image from 'next/image'
 import Link from 'next/link'

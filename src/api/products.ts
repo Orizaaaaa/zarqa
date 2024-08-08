@@ -10,3 +10,11 @@ export const createProduct = async (form: any, callback: any) => {
 }
 
 
+export const getDetailProduct = async (id: any, callback: any) => {
+    axiosInterceptor.get(`/product/${id}`)
+        .then((result) => {
+            callback(result.data);
+        }).catch((err) => {
+            callback(err);
+        });
+}
