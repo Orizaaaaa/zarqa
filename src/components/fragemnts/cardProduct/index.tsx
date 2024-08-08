@@ -10,11 +10,9 @@ type Props = {
     image: string
     location?: any
     stock: number
-    size: any[]
 }
 
-const CardProduct = ({ image, location, stock, name, size }: Props) => {
-    console.log(size);
+const CardProduct = ({ image, location, stock, name, }: Props) => {
     return (
         <Card padding="p-3 rounded-sm flex flex-col justify-between ">
             <>
@@ -27,10 +25,6 @@ const CardProduct = ({ image, location, stock, name, size }: Props) => {
                 <div className="flex gap-2 mt-2">
                     <Image className="w-5 h-5" src={kardus} alt="kardus" />
                     <p className="text-sm text-slate-500 " >{stock} Pcs</p>
-                </div>
-                <div className="flex gap-2 mt-2">
-                    <Image className="w-5 h-5" src={baju} alt="baju" />
-                    <div className="flex"> {size}</div>
                 </div>
             </>
             <div className="flex justify-end">
