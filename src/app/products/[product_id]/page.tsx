@@ -3,7 +3,10 @@ import { getDetailProduct } from '@/api/products';
 import ButtonPrimary from '@/components/elements/buttonPrimary';
 import ButtonSecondary from '@/components/elements/buttonSecondary';
 import Card from '@/components/elements/card/Card';
+import InputForm from '@/components/elements/input/InputForm';
+import ModalDefault from '@/components/fragemnts/modal/modal';
 import DefaultLayout from '@/components/layouts/DefaultLayout'
+import { useDisclosure } from '@nextui-org/react';
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
@@ -37,6 +40,7 @@ interface Product {
 
 
 const DetailProduct = () => {
+    const { isOpen: isUpdateOpen, onOpen: onUpdateOpen, onClose: onUpdateClose } = useDisclosure();
     const { product_id } = useParams();
     const [loading, setLoading] = useState(false)
     const [dataProduct, setDataProduct] = useState<Product | null>(null);
@@ -46,7 +50,35 @@ const DetailProduct = () => {
             setDataProduct(result)
             setLoading(false)
         })
-    }, []);
+    }, [product_id]);
+
+    const [form, setForm]: any = useState({
+        name: '',
+        supplierId: '',
+        color: '',
+        images: [] as File[],
+        productType: [
+            {
+                size: '',
+                price: '',
+                stock: '',
+            }
+        ],
+    });
+
+    const modalUpdate = () => {
+        onUpdateOpen();
+        setForm({ ...form, name: dataProduct?.name, supplierId: dataProduct?.supplier?._id, color: dataProduct?.color, productType: dataProduct?.productType })
+        console.log('clik');
+
+    }
+
+    const handleChange = (e: any) => {
+        const { name, value } = e.target;
+        setForm({ ...form, [name]: value });
+    };
+
+    const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
 
     const suplierData = [
         {
@@ -66,7 +98,6 @@ const DetailProduct = () => {
             data: dataProduct?.supplier?.address
         }
     ]
-
 
     return (
         <DefaultLayout>
@@ -120,13 +151,44 @@ const DetailProduct = () => {
                         ))}
 
                         <div className="flex gap-2 justify-end mt-4">
-                            <ButtonPrimary className='px-5 py-2 rounded-md' >Update</ButtonPrimary>
+                            <ButtonPrimary className='px-5 py-2 rounded-md' onClick={() => modalUpdate()} >Update</ButtonPrimary>
                             <ButtonSecondary className='px-5 py-2 rounded-md' >Delete</ButtonSecondary>
                         </div>
                     </div>
                 </div>
 
             </Card>
+
+            <ModalDefault isOpen={isUpdateOpen} onClose={onUpdateClose}>
+                <InputForm className=' bg-[#EEEEEE]' htmlFor="name" title="Nama Produk" type="text" onChange={handleChange} value={form.name} placeholder="" />
+
+                <div className="color">
+                    <h1 className='font-medium'>Warna</h1>
+                    <p className='text-sm text-graydark'>Masukan warna produk</p>
+                    <InputForm className='border-2 border-primary mt-3' htmlFor="color" type="text" onChange={handleChange} value={form.color} placeholder="" />
+                </div>
+
+                <div className="size">
+                    <h1 className='font-medium'>Size</h1>
+                    <p className='text-sm text-graydark'>Pilih ukuran yang tersedia</p>
+                    <div className="flex my-2  gap-3">
+                        {sizes?.map(size => (
+                            <button key={size}
+                                className={`w-11 h-11  bg-[#EEEEEE] rounded-md flex justify-center items-center font-semibold`}
+                            >
+                                {size}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Form untuk price dan stock */}
+                <div className="grid gap-5 grid-cols-1 lg:grid-cols-2">
+                    <InputForm className='bg-[#EEEEEE]' htmlFor="price" title="Harga" type="number" onChange={handleChange} value={''} />
+                    <InputForm className='bg-[#EEEEEE]' htmlFor="stock" title="Stock" type="number" onChange={handleChange} value={''} />
+                </div>
+            </ModalDefault>
+
         </DefaultLayout >
     )
 }
