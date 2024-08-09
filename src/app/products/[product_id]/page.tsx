@@ -6,6 +6,7 @@ import Card from '@/components/elements/card/Card';
 import InputForm from '@/components/elements/input/InputForm';
 import ModalDefault from '@/components/fragemnts/modal/modal';
 import DefaultLayout from '@/components/layouts/DefaultLayout'
+import { formatRupiah } from '@/utils/helper';
 import { useDisclosure } from '@nextui-org/react';
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react';
@@ -199,7 +200,7 @@ const DetailProduct = () => {
                                 {dataProduct?.productType?.map((item, index) => (
                                     <div className="grid grid-cols-10 text-sm" key={index}>
                                         <p className='col-span-1 text-gray'>{item.size}</p >
-                                        <div className="col-span-9 flex text-gray ms-2"> : {item.stock} Pcs - {item.price}</div>
+                                        <div className="col-span-9 flex text-gray ms-2"> : {item.stock} Pcs - {formatRupiah(item.price)}</div>
                                     </div>
                                 ))}
                             </div>
