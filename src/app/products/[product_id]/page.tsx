@@ -299,6 +299,7 @@ const DetailProduct = () => {
                             </>
                         }
 
+
                         <div className="flex gap-2 justify-end mt-4">
                             <ButtonPrimary className='px-5 py-2 rounded-md' onClick={formUpdate ? handleUpdate : toUpdate} > {formUpdate ? 'Selesai' : 'Update'}</ButtonPrimary>
                             <ButtonSecondary className='px-5 py-2 rounded-md' >Hapus</ButtonSecondary>
