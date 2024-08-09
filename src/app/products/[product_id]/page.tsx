@@ -78,7 +78,8 @@ const DetailProduct = () => {
     };
 
 
-    //logic input size
+
+    //handle button size dinamis
     const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
     const selectedProduct = form.productType.find((product: any) => product.size === selectedSize);
     const handleSizeClick = (size: any) => {
@@ -89,6 +90,7 @@ const DetailProduct = () => {
         }
     };
 
+    //manajemen state input product type
     const updateProductType = (key: 'price' | 'stock', value: string) => {
         const numberValue = Number(value);
         const updatedProductType = form.productType.map((product: any) => {
@@ -100,12 +102,16 @@ const DetailProduct = () => {
         setForm({ ...form, productType: updatedProductType });
     };
 
+
+    //untuk menghapus size serta harga dan stock nya
     const handleDeleteSize = (size: string) => {
         const updatedProductType = form.productType.filter((product: any) => product.size !== size);
         setForm({ ...form, productType: updatedProductType });
         setSelectedSize(updatedProductType.length > 0 ? updatedProductType[0].size : 'S');
     };
 
+
+    //menambah gambar serta memasukan gambar file array ke state imagesFile
     const handleAddImage = (event: React.ChangeEvent<HTMLInputElement>) => {
         const files = event.target.files;
 
@@ -119,12 +125,15 @@ const DetailProduct = () => {
         }
     };
 
+
+    //ini adalah delete image array, akan tetapi untuk kesana nya akan menggunakan pengkondisian jika mengandung cloudinary
     const handleDeleteImage = (index: number) => {
         const updatedImages = form.images.filter((_: string, i: number) => i !== index);
         setForm({ ...form, images: updatedImages });
     };
 
 
+    //memasukan state serta merubah menjadi form update
     const toUpdate = () => {
         setFormUpdate(true)
         setForm({
@@ -137,6 +146,8 @@ const DetailProduct = () => {
     const handleUpdate = () => {
         console.log('aman');
     }
+
+
 
     const suplierData = [
         {
