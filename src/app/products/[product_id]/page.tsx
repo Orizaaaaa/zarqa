@@ -9,6 +9,7 @@ import DefaultLayout from '@/components/layouts/DefaultLayout'
 import { useDisclosure } from '@nextui-org/react';
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react';
+import { IoClose } from 'react-icons/io5';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -41,6 +42,7 @@ interface Product {
 
 const DetailProduct = () => {
     const { isOpen: isUpdateOpen, onOpen: onUpdateOpen, onClose: onUpdateClose } = useDisclosure();
+    const [selectedSize, setSelectedSize] = useState<string>('');
     const { product_id } = useParams();
     const [loading, setLoading] = useState(false)
     const [dataProduct, setDataProduct] = useState<Product | null>(null);
@@ -66,19 +68,52 @@ const DetailProduct = () => {
         ],
     });
 
+
+    const handleChange = (e: any) => {
+        const { name, value } = e.target;
+        setForm({
+            ...form,
+            [name]: (name === 'price' || name === 'stock') ? Number(value) : value
+        });
+    };
+
+
+    //logic input size
+    const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
+    const selectedProduct = form.productType.find((product: any) => product.size === selectedSize);
+    const handleSizeClick = (size: any) => {
+        setSelectedSize(size);
+        if (!form.productType.some((product: any) => product.size === size)) {
+            const newProductType = [...form.productType, { size, price: '', stock: '' }];
+            setForm({ ...form, productType: newProductType });
+        }
+    };
+
+    const updateProductType = (key: 'price' | 'stock', value: string) => {
+        const numberValue = Number(value);
+        const updatedProductType = form.productType.map((product: any) => {
+            if (product.size === selectedSize) {
+                return { ...product, [key]: numberValue };
+            }
+            return product;
+        });
+        setForm({ ...form, productType: updatedProductType });
+    };
+
+    const handleDeleteSize = (size: string) => {
+        const updatedProductType = form.productType.filter((product: any) => product.size !== size);
+        setForm({ ...form, productType: updatedProductType });
+        setSelectedSize(updatedProductType.length > 0 ? updatedProductType[0].size : 'S');
+    };
+
+
+
     const modalUpdate = () => {
         onUpdateOpen();
         setForm({ ...form, name: dataProduct?.name, supplierId: dataProduct?.supplier?._id, color: dataProduct?.color, productType: dataProduct?.productType })
         console.log('clik');
 
     }
-
-    const handleChange = (e: any) => {
-        const { name, value } = e.target;
-        setForm({ ...form, [name]: value });
-    };
-
-    const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
 
     const suplierData = [
         {
@@ -98,6 +133,7 @@ const DetailProduct = () => {
             data: dataProduct?.supplier?.address
         }
     ]
+
 
     return (
         <DefaultLayout>
@@ -172,21 +208,37 @@ const DetailProduct = () => {
                     <h1 className='font-medium'>Size</h1>
                     <p className='text-sm text-graydark'>Pilih ukuran yang tersedia</p>
                     <div className="flex my-2  gap-3">
-                        {sizes?.map(size => (
-                            <button key={size}
-                                className={`w-11 h-11  bg-[#EEEEEE] rounded-md flex justify-center items-center font-semibold`}
+                        {sizes.map(size => (
+                            <button
+                                key={size}
+                                className={`w-11 h-11 ${form.productType.some((product: any) => product.size === size) ? 'bg-black text-white' : 'bg-[#EEEEEE]'} rounded-md flex justify-center items-center font-semibold`}
+                                onClick={() => handleSizeClick(size)}
                             >
                                 {size}
                             </button>
                         ))}
+
                     </div>
+                </div>
+                <div className="flex justify-end">
+                    {selectedProduct ? (
+                        <button key={selectedProduct.size}
+                            className="flex items-center text-red-500"
+                            onClick={() => handleDeleteSize(selectedProduct.size)}
+                        >
+                            <IoClose size={25} color="red" />
+                            {selectedProduct.size}
+                        </button>
+                    ) : null}
                 </div>
 
                 {/* Form untuk price dan stock */}
                 <div className="grid gap-5 grid-cols-1 lg:grid-cols-2">
-                    <InputForm className='bg-[#EEEEEE]' htmlFor="price" title="Harga" type="number" onChange={handleChange} value={''} />
-                    <InputForm className='bg-[#EEEEEE]' htmlFor="stock" title="Stock" type="number" onChange={handleChange} value={''} />
+                    <InputForm className='bg-[#EEEEEE]' htmlFor="price" title="Harga" type="number" onChange={(e: any) => updateProductType('price', e.target.value)} value={selectedProduct?.price || ''} placeholder="" />
+                    <InputForm className='bg-[#EEEEEE]' htmlFor="stock" title="Stock" type="number" onChange={(e: any) => updateProductType('stock', e.target.value)} value={selectedProduct?.stock || ''} placeholder="" />
                 </div>
+
+
             </ModalDefault>
 
         </DefaultLayout >
