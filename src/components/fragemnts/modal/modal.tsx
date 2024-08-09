@@ -5,9 +5,10 @@ type Props = {
     onClose?: any
     children?: React.ReactNode
     closeButton?: boolean
+    className?: string
 }
 
-const ModalDefault = ({ isOpen, onClose, children, closeButton }: Props) => {
+const ModalDefault = ({ isOpen, onClose, children, closeButton, className }: Props) => {
     return (
         <Modal
             size={'xl'}
@@ -18,7 +19,7 @@ const ModalDefault = ({ isOpen, onClose, children, closeButton }: Props) => {
         >
             <ModalContent>
                 <>
-                    <ModalBody>
+                    <ModalBody className={`overflow-x-hidden ${className}`}>
                         {children}
                     </ModalBody>
                 </>

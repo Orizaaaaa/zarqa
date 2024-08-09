@@ -9,7 +9,7 @@ import DefaultLayout from '@/components/layouts/DefaultLayout'
 import { useDisclosure } from '@nextui-org/react';
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react';
-import { IoClose } from 'react-icons/io5';
+import { IoClose, IoCloseCircleOutline } from 'react-icons/io5';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -42,6 +42,7 @@ interface Product {
 
 const DetailProduct = () => {
     const { isOpen: isUpdateOpen, onOpen: onUpdateOpen, onClose: onUpdateClose } = useDisclosure();
+    const [imageFiles, setImageFiles] = useState([] as File[]);
     const [selectedSize, setSelectedSize] = useState<string>('');
     const { product_id } = useParams();
     const [loading, setLoading] = useState(false)
@@ -58,7 +59,7 @@ const DetailProduct = () => {
         name: '',
         supplierId: '',
         color: '',
-        images: [] as File[],
+        images: [] as string[],
         productType: [
             {
                 size: '',
@@ -106,12 +107,31 @@ const DetailProduct = () => {
         setSelectedSize(updatedProductType.length > 0 ? updatedProductType[0].size : 'S');
     };
 
+    const handleAddImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const files = event.target.files;
+
+        if (files && files[0]) {
+            const newImageURL = URL.createObjectURL(files[0]);
+            const updatedImages = [...form.images, newImageURL];
+            const updatedImageFiles = [...imageFiles, files[0]]; // Menyimpan file asli
+
+            setForm({ ...form, images: updatedImages });
+            setImageFiles(updatedImageFiles); // Update state dengan file asli
+        }
+    };
+
+    const handleDeleteImage = (index: number) => {
+        const updatedImages = form.images.filter((_: string, i: number) => i !== index);
+        setForm({ ...form, images: updatedImages });
+    };
 
 
     const modalUpdate = () => {
         onUpdateOpen();
-        setForm({ ...form, name: dataProduct?.name, supplierId: dataProduct?.supplier?._id, color: dataProduct?.color, productType: dataProduct?.productType })
-        console.log('clik');
+        setForm({
+            ...form, name: dataProduct?.name, supplierId: dataProduct?.supplier?._id, color: dataProduct?.color, productType: dataProduct?.productType,
+            images: dataProduct?.images
+        })
 
     }
 
@@ -133,6 +153,14 @@ const DetailProduct = () => {
             data: dataProduct?.supplier?.address
         }
     ]
+
+    const handleUpdateProduct = async () => {
+
+    }
+
+    console.log(form);
+    console.log(imageFiles);
+
 
 
     return (
@@ -195,7 +223,37 @@ const DetailProduct = () => {
 
             </Card>
 
-            <ModalDefault isOpen={isUpdateOpen} onClose={onUpdateClose}>
+            <ModalDefault isOpen={isUpdateOpen} onClose={onUpdateClose} className='pt-10' >
+                <div className="image flex justify-center items-center">
+                    <Swiper
+                        spaceBetween={30}
+                        pagination={{
+                            clickable: true,
+                        }}
+                        modules={[Autoplay, Pagination, Navigation]}
+                        className="mySwiper"
+                    >
+                        {form.images.map((image: any, index: any) => (
+                            <SwiperSlide key={index}>
+                                <div className="flex justify-center items-center relative">
+                                    <img
+                                        src={image}
+                                        className="w-full lg:w-[200px] h-[50px] md:h-[250px] rounded-lg"
+                                        style={{ pointerEvents: 'none' }}
+                                    />
+                                    <button
+                                        className="button-delete array image absolute top-0 right-0 z-10"
+                                        onClick={() => handleDeleteImage(index)}
+                                    >
+                                        <IoCloseCircleOutline color="red" size={34} />
+                                    </button>
+                                </div>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                </div>
+
+
                 <InputForm className=' bg-[#EEEEEE]' htmlFor="name" title="Nama Produk" type="text" onChange={handleChange} value={form.name} placeholder="" />
 
                 <div className="color">
@@ -239,6 +297,18 @@ const DetailProduct = () => {
                 </div>
 
 
+                <div className="image-upload flex justify-center items-center mt-4">
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleAddImage}
+                        className="hidden"
+                        id="image-upload"
+                    />
+                    <label htmlFor="image-upload" className="cursor-pointer bg-blue-500 text-white px-4 py-2 rounded">
+                        Add Image
+                    </label>
+                </div>
             </ModalDefault>
 
         </DefaultLayout >

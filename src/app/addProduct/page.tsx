@@ -138,6 +138,9 @@ const AddProduct = () => {
         }
     };
 
+
+
+
     return (
         <DefaultLayout>
             <div className="grid grid-cols-1 lg:grid-cols-6 gap-3">
