@@ -31,10 +31,10 @@ const DemanProducts = () => {
         keepPreviousData: true,
     });
 
-    if (error) return <div>Error loading data</div>;
-
+    // Menghindari penggunaan hooks di dalam kondisi
     const transaction = data?.data || [];
 
+    // Hooks dipanggil di luar blok kondisional
     const [page, setPage] = useState(1);
     const rowsPerPage = 9;
 
@@ -45,6 +45,8 @@ const DemanProducts = () => {
         const end = start + rowsPerPage;
         return transaction.slice(start, end);
     }, [page, transaction]);
+
+    if (error) return <div>Error loading data</div>;
 
     return (
         <DefaultLayout>
@@ -95,5 +97,6 @@ const DemanProducts = () => {
         </DefaultLayout>
     );
 };
+
 
 export default DemanProducts;
