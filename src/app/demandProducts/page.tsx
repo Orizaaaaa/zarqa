@@ -4,6 +4,7 @@ import ButtonPrimary from '@/components/elements/buttonPrimary'
 import DefaultLayout from '@/components/layouts/DefaultLayout'
 import { formatRupiah } from '@/utils/helper'
 import { Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react'
+import Link from 'next/link'
 import { useMemo, useState } from 'react'
 import useSWR from 'swr'
 
@@ -74,7 +75,7 @@ const DemanProducts = () => {
                     <TableColumn key="stock">STOCK</TableColumn>
                     <TableColumn key="quantity">KUANTITAS</TableColumn>
                     <TableColumn key="total">TOTAL</TableColumn>
-                    <TableColumn key="total">DETAIL</TableColumn>
+                    <TableColumn key="total">ACTION</TableColumn>
                 </TableHeader>
                 <TableBody items={items}>
                     {items.map((transaction: any) => (
@@ -86,7 +87,7 @@ const DemanProducts = () => {
                             <TableCell>{transaction.product_type.stock}</TableCell>
                             <TableCell>{transaction.qty}</TableCell>
                             <TableCell>{formatRupiah(transaction.grandtotal)}</TableCell>
-                            <TableCell><ButtonPrimary className='w-full py-2 rounded-md' onClick={() => console.log(transaction)}>Detail</ButtonPrimary></TableCell>
+                            <TableCell><Link href={`/demandProducts/${transaction.id}`}> <ButtonPrimary className='w-full py-2 rounded-md'>Detail</ButtonPrimary></Link></TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

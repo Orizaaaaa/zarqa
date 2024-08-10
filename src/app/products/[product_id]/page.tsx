@@ -10,6 +10,7 @@ import { formatRupiah } from '@/utils/helper';
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react';
 import { IoClose, IoCloseCircleOutline } from 'react-icons/io5';
+import { RiArrowGoBackLine } from 'react-icons/ri';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -191,6 +192,7 @@ const DetailProduct = () => {
     return (
         <DefaultLayout>
             <Card padding='p-3 min-h-[85vh] flex flex-col items-center justify-center' >
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className='flex justify-center items-center h-full' >
                         <Swiper
@@ -243,6 +245,9 @@ const DetailProduct = () => {
                     <div className="right ">
                         {formUpdate ? (
                             <>
+                                <div className="flex justify-end">
+                                    <ButtonPrimary onClick={() => setFormUpdate(false)} className='py-2 px-3 rounded-md flex items-center justify-center gap-2' ><RiArrowGoBackLine /> Kembali </ButtonPrimary>
+                                </div>
                                 <InputForm className=' bg-[#EEEEEE]' htmlFor="name" title="Nama Produk" type="text" onChange={handleChange} value={form.name} placeholder="" />
 
                                 <div className="color">
