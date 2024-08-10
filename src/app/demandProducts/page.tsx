@@ -1,74 +1,95 @@
 'use client'
-import Card from '@/components/elements/card/Card'
+import { url } from '@/api/auth'
 import DefaultLayout from '@/components/layouts/DefaultLayout'
-import { getKeyValue, Pagination, Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react'
-import Link from 'next/link'
+import { formatRupiah } from '@/utils/helper'
+import { Pagination, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/react'
 import { useMemo, useState } from 'react'
 import useSWR from 'swr'
 
-const fetcher = (...args: Parameters<typeof fetch>) => fetch(...args).then((res) => res.json());
+const fetcher = async (...args: Parameters<typeof fetch>) => {
+    const [url, options] = args;
+    const token = localStorage.getItem('token');
+    const response = await fetch(url, {
+        ...options,
+        headers: {
+            ...options?.headers,
+            'Authorization': token || '',
+        },
+    });
 
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+
+    return response.json();
+};
 
 const DemanProducts = () => {
-    const [page, setPage] = useState(1);
-
-    const { data, isLoading } = useSWR(`https://swapi.py4e.com/api/people?page=${page}`, fetcher, {
+    const { data, error } = useSWR(`${url}/transaction/list`, fetcher, {
         keepPreviousData: true,
     });
-    console.log(data);
 
-    const rowsPerPage = 10;
+    if (error) return <div>Error loading data</div>;
 
-    const pages = useMemo(() => {
-        return data?.count ? Math.ceil(data.count / rowsPerPage) : 0;
-    }, [data?.count, rowsPerPage]);
+    const transaction = data?.data || [];
 
-    const loadingState = isLoading || data?.results.length === 0 ? "loading" : "idle";
+    const [page, setPage] = useState(1);
+    const rowsPerPage = 9;
+
+    const pages = Math.ceil(transaction.length / rowsPerPage);
+
+    const items = useMemo(() => {
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        return transaction.slice(start, end);
+    }, [page, transaction]);
+
     return (
         <DefaultLayout>
-
             <Table
-                aria-label="Example table with client async pagination"
+                aria-label="Example table with client side pagination"
                 bottomContent={
-                    pages > 0 ? (
-                        <div className="flex w-full justify-center">
-                            <Pagination
-                                isCompact
-                                showControls
-                                showShadow
-                                color="primary"
-                                page={page}
-                                total={pages}
-                                onChange={(page) => setPage(page)}
-                            />
-                        </div>
-                    ) : null
+                    <div className="flex w-full justify-center">
+                        <Pagination
+                            isCompact
+                            showControls
+                            showShadow
+                            color="primary"
+                            page={page}
+                            total={pages}
+                            onChange={(newPage) => setPage(newPage)}
+                        />
+                    </div>
                 }
+                classNames={{
+                    wrapper: "min-h-[50vh]",
+                }}
             >
                 <TableHeader>
-                    <TableColumn key="name">Nama Dropshiper</TableColumn>
-                    <TableColumn key="height">Jumlah Barang</TableColumn>
-                    <TableColumn key="mass">Mass</TableColumn>
-                    <TableColumn key="birth_year">Status</TableColumn>
+                    <TableColumn key="name">NAME</TableColumn>
+                    <TableColumn key="product">PRODUK DAN SIZE</TableColumn>
+                    <TableColumn key="color">WARNA</TableColumn>
+                    <TableColumn key="price">HARGA</TableColumn>
+                    <TableColumn key="stock">STOCK</TableColumn>
+                    <TableColumn key="quantity">KUANTITAS</TableColumn>
+                    <TableColumn key="total">TOTAL</TableColumn>
                 </TableHeader>
-                <TableBody
-                    items={data?.results ?? []}
-                    loadingContent={<Spinner />}
-                    loadingState={loadingState}
-                >
-                    {(item: any) => (
-                        <TableRow key={item?.name}>
-                            {(columnKey) => <TableCell>
-                                {columnKey === "name" ? <Link href={`/demanProducts`}> {getKeyValue(item, columnKey)}</Link>
-                                    : getKeyValue(item, columnKey)}  </TableCell>}
+                <TableBody items={items}>
+                    {items.map((transaction: any) => (
+                        <TableRow key={transaction.id}>
+                            <TableCell>{transaction?.user?.name}</TableCell>
+                            <TableCell>{transaction.product_type.product.name} - {transaction.product_type.size}</TableCell>
+                            <TableCell>{transaction.product_type.product.color}</TableCell>
+                            <TableCell>{formatRupiah(transaction.product_type.price)}</TableCell>
+                            <TableCell>{transaction.product_type.stock}</TableCell>
+                            <TableCell>{transaction.qty}</TableCell>
+                            <TableCell>{formatRupiah(transaction.grandtotal)}</TableCell>
                         </TableRow>
-                    )}
+                    ))}
                 </TableBody>
             </Table>
-
         </DefaultLayout>
+    );
+};
 
-    )
-}
-
-export default DemanProducts
+export default DemanProducts;
