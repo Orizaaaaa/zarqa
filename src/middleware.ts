@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+//nanti fitur selanjut nya adalah menyeting token expire lewat jwt, jika token expired maka akan di alihkan ke halaman login
 export function middleware(req: NextRequest) {
     const token = req.cookies.get('token');
 
