@@ -3,6 +3,11 @@ import { NextRequest, NextResponse } from 'next/server';
 export function middleware(req: NextRequest) {
     const token = req.cookies.get('token');
 
+    // If the request is for the login page, skip the middleware
+    if (req.nextUrl.pathname === '/login') {
+        return NextResponse.next();
+    }
+
     if (!token) {
         // Redirect user to login page if not authenticated
         const url = req.nextUrl.clone();

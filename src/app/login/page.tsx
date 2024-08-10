@@ -56,11 +56,13 @@ const Login = () => {
         e.preventDefault();
         await loginService(form, (status: boolean, res: any) => {
             if (status) {
-                console.log(res.data);
-                localStorage.setItem('token', res.data.token)
-                document.cookie = `token=${res.data.token}`
-                router.push('/dashboard');
-                setLoading(false)
+                const tokenCookies = document.cookie = `token=${res.data.token}`
+                if (tokenCookies) {
+                    console.log(res.data);
+                    localStorage.setItem('token', res.data.token)
+                    router.push('/dashboard');
+                    setLoading(false)
+                }
             } else {
                 setErrorLogin('*Email atau password salah')
                 console.log(res.data);

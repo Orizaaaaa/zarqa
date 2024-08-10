@@ -1,5 +1,6 @@
 'use client'
-import { getDetailProduct } from '@/api/products';
+import { postImagesArray } from '@/api/imagePost';
+import { getDetailProduct, updateProduct } from '@/api/products';
 import ButtonPrimary from '@/components/elements/buttonPrimary';
 import ButtonSecondary from '@/components/elements/buttonSecondary';
 import Card from '@/components/elements/card/Card';
@@ -143,8 +144,24 @@ const DetailProduct = () => {
 
     }
 
-    const handleUpdate = () => {
-        console.log('aman');
+    const handleUpdate = async () => {
+        const urls: string[] = await postImagesArray({ images: imageFiles })
+        const data = {
+            ...form,
+            images: urls
+        }
+        console.log(urls);
+
+
+        updateProduct(product_id, data, (status: boolean, result: any) => {
+            if (status) {
+                setFormUpdate(false)
+                console.log(result);
+            } else {
+                console.log(result);
+
+            }
+        })
     }
 
 

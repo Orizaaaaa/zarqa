@@ -22,8 +22,8 @@ export const getDetailProduct = async (id: any, callback: any) => {
 export const updateProduct = async (id: any, form: any, callback: any) => {
     axiosInterceptor.put(`/product/${id}`, form)
         .then((result) => {
-            callback(result.data);
+            callback(true, result.data);
         }).catch((err) => {
-            callback(err);
+            callback(false, err);
         });
 }
