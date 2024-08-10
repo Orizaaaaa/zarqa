@@ -75,7 +75,7 @@ const DemanProducts = () => {
                     <TableColumn key="stock">STOCK</TableColumn>
                     <TableColumn key="quantity">KUANTITAS</TableColumn>
                     <TableColumn key="total">TOTAL</TableColumn>
-                    <TableColumn key="total">ACTION</TableColumn>
+                    <TableColumn key="action">ACTION</TableColumn>
                 </TableHeader>
                 <TableBody items={items}>
                     {items.map((transaction: any) => (
